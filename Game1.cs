@@ -20,8 +20,8 @@ namespace XNAInvaders
 
         Player thePlayer;
         Bullet theBullet;
-
-        //TODO: Add multiple invaders here
+        int nInvaders = 16;
+        List<Invader> invaders = new List<Invader>();
 
         public Game1()
             : base()
@@ -49,6 +49,14 @@ namespace XNAInvaders
             thePlayer = new Player();
             theBullet = new Bullet();
 
+            for (int iInvader = 0; iInvader < nInvaders; iInvader++)
+            {
+                Invader newInvader = new Invader();
+                newInvader.Init();
+                invaders.Add(newInvader);
+            }
+ 
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Global.spriteBatch = spriteBatch;
@@ -71,8 +79,22 @@ namespace XNAInvaders
             thePlayer.Update();
             theBullet.Update();
 
-            base.Update(gameTime);
-        }
+            foreach (Invader anInvader in invaders)
+            {
+                anInvader.Update();
+
+                if (theBullet.OverlapsInvader(anInvader) == true)
+                {
+                    anInvader.Init();
+                }
+
+            }
+
+            
+                
+
+                base.Update(gameTime);
+            }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -87,6 +109,10 @@ namespace XNAInvaders
             // Draw the game objects
             thePlayer.Draw();
             theBullet.Draw();
+            foreach(Invader invader in invaders)
+            {
+                invader.draw();
+            }
 
             spriteBatch.Draw(scanlines, Global.screenRect, Color.White);
             spriteBatch.End();

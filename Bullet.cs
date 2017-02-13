@@ -56,9 +56,17 @@ namespace XNAInvaders
             }
         }
 
-//        public Boolean OverlapsInvader(Invader anInvader)
-//        {
-//        }
+        public Boolean OverlapsInvader(Invader anInvader)
+        {
+            Rectangle bulletRect = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            Rectangle invaderRect = new Rectangle((int)anInvader.position.X, (int)anInvader.position.Y, anInvader.texture.Width, anInvader.texture.Height);
+
+            if (bulletRect.Intersects(invaderRect)) { 
+                Init();
+                return true; }
+            else
+                return false;
+        }
 
     }
 }
