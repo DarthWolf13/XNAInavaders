@@ -18,22 +18,42 @@ namespace XNAInvaders
 
         public Bullet()
         {
+            texture = Global.content.Load<Texture2D>("bullet");
+            Init();
         }
 
         public void Init()
         {
+            isFired = false;
+            position.X = -1000;
+            velocity.Y = 0;
         }
 
         public void Update()
         {
+            if (isFired)
+            {
+                if (position.Y < 0)
+                {
+                    Init();
+                }
+            }
+            position.Y += velocity.Y;
         }
 
         public void Draw()
-        {            
+        {
+            Global.spriteBatch.Draw(texture, position, Color.White);
         }
 
         public void Fire(Vector2 startPosition)
-        {            
+        {
+            if (!isFired)
+            {
+                isFired = true;
+                position = startPosition;
+                velocity.Y = -3;
+            }
         }
 
 //        public Boolean OverlapsInvader(Invader anInvader)
